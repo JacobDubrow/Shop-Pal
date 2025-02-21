@@ -1,30 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CODE_PROJECT
 {
     public partial class Form1 : Form
     {
+        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True";
+
         public Form1()
         {
             InitializeComponent();
         }
 
-       // private SqlConnection cn; // Declare as a class-level field
-        private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True";
-
         private void Form1_Load(object sender, EventArgs e)
         {
-           // SqlConnection cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True");
-           // cn.Open();
+
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -34,36 +25,56 @@ namespace CODE_PROJECT
             registration.ShowDialog();
         }
 
-        private void BtnLogin_Click(object sender, EventArgs e)
+        private void BtnLogin_Click_1(object sender, EventArgs e)
         {
-            if (txtpassword.Text != string.Empty || txtusername.Text != string.Empty)
+            if (string.IsNullOrWhiteSpace(txtusername.Text) || string.IsNullOrWhiteSpace(txtpassword.Text))
             {
-                using (SqlConnection cn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True")) // Use using statement
-                {
-                    cn.Open(); // Open connection inside the using block
+                MessageBox.Show("Please enter value in all fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                    using (SqlCommand cmd = new SqlCommand("select * from LoginTable where username='" + txtusername.Text + "' and password='" + txtpassword.Text + "'", cn)) // Use using statement
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    cn.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM LoginTable WHERE username=@username AND password=@password", cn))
                     {
-                        using (SqlDataReader dr = cmd.ExecuteReader()) // Use using statement
+                        cmd.Parameters.AddWithValue("@username", txtusername.Text);
+                        cmd.Parameters.AddWithValue("@password", txtpassword.Text);
+
+                        using (SqlDataReader dr = cmd.ExecuteReader())
                         {
                             if (dr.Read())
                             {
+                                dr.Close();
                                 this.Hide();
                                 Home home = new Home();
                                 home.ShowDialog();
                             }
                             else
                             {
-                                MessageBox.Show("No Account avilable with this username and password ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBox.Show("Invalid username or password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
-                        } // dr is closed automatically here
-                    } // cmd is disposed automatically here
-                } // cn is closed automatically here
+                        }
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please enter value in all field.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+
+        private System.Windows.Forms.Button btnForgotPassword;
+
+        private void ForgotPassword_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ForgotPassword forgotPassword = new ForgotPassword();
+            forgotPassword.ShowDialog();
         }
     }
 }

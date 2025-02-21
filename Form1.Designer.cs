@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            this.BtnLogin = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.txtpassword = new System.Windows.Forms.TextBox();
@@ -37,22 +37,23 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.ForgotPassword = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // BtnLogin
             // 
-            this.button1.BackColor = System.Drawing.Color.OliveDrab;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.Location = new System.Drawing.Point(297, 292);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(218, 72);
-            this.button1.TabIndex = 15;
-            this.button1.Text = "Log In";
-            this.button1.UseVisualStyleBackColor = false;
+            this.BtnLogin.BackColor = System.Drawing.Color.OliveDrab;
+            this.BtnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BtnLogin.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.BtnLogin.Location = new System.Drawing.Point(297, 292);
+            this.BtnLogin.Name = "BtnLogin";
+            this.BtnLogin.Size = new System.Drawing.Size(218, 72);
+            this.BtnLogin.TabIndex = 15;
+            this.BtnLogin.Text = "Log In";
+            this.BtnLogin.UseVisualStyleBackColor = false;
+            this.BtnLogin.Click += new System.EventHandler(this.BtnLogin_Click_1);
             // 
             // pictureBox2
             // 
@@ -135,15 +136,16 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // ForgotPassword
             // 
-            this.button3.ForeColor = System.Drawing.Color.DarkTurquoise;
-            this.button3.Location = new System.Drawing.Point(355, 270);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(101, 21);
-            this.button3.TabIndex = 17;
-            this.button3.Text = "Forgot Password?";
-            this.button3.UseVisualStyleBackColor = true;
+            this.ForgotPassword.ForeColor = System.Drawing.Color.DarkTurquoise;
+            this.ForgotPassword.Location = new System.Drawing.Point(355, 270);
+            this.ForgotPassword.Name = "ForgotPassword";
+            this.ForgotPassword.Size = new System.Drawing.Size(101, 21);
+            this.ForgotPassword.TabIndex = 17;
+            this.ForgotPassword.Text = "Forgot Password?";
+            this.ForgotPassword.UseVisualStyleBackColor = true;
+            this.ForgotPassword.Click += new System.EventHandler(this.ForgotPassword_Click);
             // 
             // Form1
             // 
@@ -151,9 +153,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.ForgotPassword);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtnLogin);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtpassword);
@@ -173,7 +175,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button BtnLogin;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.TextBox txtpassword;
@@ -182,7 +184,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button ForgotPassword;
     }
 }
 

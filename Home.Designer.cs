@@ -33,6 +33,7 @@
             this.button2 = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.ListList = new System.Windows.Forms.DomainUpDown();
+            this.OpenList = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,6 +88,19 @@
             this.ListList.Size = new System.Drawing.Size(276, 20);
             this.ListList.TabIndex = 5;
             this.ListList.Text = "List 1";
+            this.ListList.SelectedItemChanged += new System.EventHandler(this.ListList_SelectedItemChanged);
+            // 
+            // OpenList
+            // 
+            this.OpenList.BackColor = System.Drawing.Color.SkyBlue;
+            this.OpenList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.OpenList.Location = new System.Drawing.Point(360, 208);
+            this.OpenList.Name = "OpenList";
+            this.OpenList.Size = new System.Drawing.Size(91, 35);
+            this.OpenList.TabIndex = 6;
+            this.OpenList.Text = "Open List";
+            this.OpenList.UseVisualStyleBackColor = false;
+            this.OpenList.Click += new System.EventHandler(this.OpenList_Click);
             // 
             // Home
             // 
@@ -94,6 +108,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.OpenList);
             this.Controls.Add(this.ListList);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.button2);
@@ -115,5 +130,6 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.DomainUpDown ListList;
+        private System.Windows.Forms.Button OpenList;
     }
 }
