@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CODE_PROJECT
@@ -15,16 +10,16 @@ namespace CODE_PROJECT
     {
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True";
         private List<ShoppingList> shoppingLists = new List<ShoppingList>();
+        private int userId;
 
-        public Home()
+        public Home(int userId)
         {
             InitializeComponent();
-            InitializeUI();
+            this.userId = userId;
         }
 
         private void Home_Load(object sender, EventArgs e)
         {
-            InitializeUI();
             LoadShoppingListsIntoDomainUpDown();
         }
 
@@ -35,8 +30,10 @@ namespace CODE_PROJECT
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT listName FROM ShoppingList ORDER BY listName", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT listName FROM ShoppingList WHERE userId=@userId ORDER BY listName", conn))
                     {
+                        cmd.Parameters.AddWithValue("@userId", userId);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             ListList.Items.Clear();
@@ -60,14 +57,9 @@ namespace CODE_PROJECT
             }
         }
 
-        private void InitializeUI()
-        {
-
-        }
-
         private void CreateList_Click(object sender, EventArgs e)
         {
-            using (var createListForm = new CreateNewListForm())
+            using (var createListForm = new CreateNewListForm(userId))
             {
                 if (createListForm.ShowDialog() == DialogResult.OK)
                 {
@@ -97,8 +89,10 @@ namespace CODE_PROJECT
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT listID, listName, createdBy FROM ShoppingList", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT listID, listName, userId FROM ShoppingList WHERE userId=@userId", conn))
                     {
+                        cmd.Parameters.AddWithValue("@userId", userId);
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -107,7 +101,7 @@ namespace CODE_PROJECT
                                 {
                                     listID = reader["listID"].ToString(),
                                     listName = reader["listName"].ToString(),
-                                    createdBy = reader["createdBy"].ToString()
+                                    userId = reader["userId"].ToString() // Ensure this is correct if the column name is 'userId'
                                 };
                                 shoppingLists.Add(list);
                                 ListList.Items.Add(list.listName);
@@ -127,9 +121,6 @@ namespace CODE_PROJECT
             if (ListList.SelectedItem != null)
             {
                 string selectedListName = ListList.SelectedItem.ToString();
-                // Here you can add code to handle when a different list is selected
-                // For now, we'll just show which list is selected
-                // MessageBox.Show($"Selected list: {selectedListName}");
             }
         }
 
@@ -147,19 +138,17 @@ namespace CODE_PROJECT
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
-                    using (SqlCommand cmd = new SqlCommand("SELECT listID, listName FROM ShoppingList WHERE listName = @listName", conn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT listID, listName FROM ShoppingList WHERE listName = @listName AND userId = @userId", conn))
                     {
                         cmd.Parameters.AddWithValue("@listName", selectedListName);
+                        cmd.Parameters.AddWithValue("@userId", userId);
 
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             if (reader.Read())
                             {
-                                // Get the list details
                                 string listID = reader["listID"].ToString();
                                 string listName = reader["listName"].ToString();
-
-                                // Open the ListView form with the specific listID and listName
                                 ListView listView = new ListView(listID, listName, this);
                                 listView.Show();
                             }
@@ -173,6 +162,8 @@ namespace CODE_PROJECT
             }
         }
 
+
+
         public void RemoveListFromDomainUpDown(string listName)
         {
             ListList.Items.Remove(listName);
@@ -182,7 +173,12 @@ namespace CODE_PROJECT
         {
             public string listID { get; set; }
             public string listName { get; set; }
-            public string createdBy { get; set; }
+            public string userId { get; set; } // Ensure this is correct if the column name is 'userId'
+        }
+
+        private void JoinMessage_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("To join a list, please enter the list key provided by the list owner within a list of your own.");
         }
     }
 }

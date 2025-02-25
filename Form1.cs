@@ -39,7 +39,7 @@ namespace CODE_PROJECT
                 {
                     cn.Open();
 
-                    using (SqlCommand cmd = new SqlCommand("SELECT * FROM LoginTable WHERE username=@username AND password=@password", cn))
+                    using (SqlCommand cmd = new SqlCommand("SELECT userId FROM LoginTable WHERE username=@username AND password=@password", cn))
                     {
                         cmd.Parameters.AddWithValue("@username", txtusername.Text);
                         cmd.Parameters.AddWithValue("@password", txtpassword.Text);
@@ -48,9 +48,9 @@ namespace CODE_PROJECT
                         {
                             if (dr.Read())
                             {
-                                dr.Close();
+                                int userId = (int)dr["userId"];
                                 this.Hide();
-                                Home home = new Home();
+                                Home home = new Home(userId);
                                 home.ShowDialog();
                             }
                             else
@@ -67,14 +67,14 @@ namespace CODE_PROJECT
             }
         }
 
-
-        private System.Windows.Forms.Button btnForgotPassword;
-
-        private void ForgotPassword_Click(object sender, EventArgs e)
+        private void BtnForgotPassword_Click(object sender, EventArgs e)
         {
             this.Hide();
             ForgotPassword forgotPassword = new ForgotPassword();
             forgotPassword.ShowDialog();
         }
+
+
+        private System.Windows.Forms.Button btnForgotPassword;
     }
 }

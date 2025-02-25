@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CODE_PROJECT
 {
     public partial class Registration : Form
     {
-
         private string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True";
 
         public Registration()
@@ -69,17 +61,18 @@ namespace CODE_PROJECT
                         }
                     }
 
-                    // Insert new user
-                    using (SqlCommand cmd = new SqlCommand("INSERT INTO LoginTable (username, password) VALUES (@username, @password)", cn))
+                    // Insert new user and retrieve userId
+                    int userId;
+                    using (SqlCommand cmd = new SqlCommand("INSERT INTO LoginTable (username, password) OUTPUT INSERTED.userId VALUES (@username, @password)", cn))
                     {
                         cmd.Parameters.AddWithValue("@username", txtusername.Text);
                         cmd.Parameters.AddWithValue("@password", txtpassword.Text);
-                        cmd.ExecuteNonQuery();
+                        userId = (int)cmd.ExecuteScalar();
                     }
 
                     MessageBox.Show("Account created successfully.", "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     this.Hide();
-                    Home home = new Home();
+                    Home home = new Home(userId);
                     home.ShowDialog();
                 }
             }
@@ -90,5 +83,3 @@ namespace CODE_PROJECT
         }
     }
 }
-
-

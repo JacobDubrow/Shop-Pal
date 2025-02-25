@@ -11,7 +11,6 @@ using System.Data.SqlClient;
 using CODE_PROJECT;
 using static CODE_PROJECT.Home;
 
-
 namespace CODE_PROJECT
 {
     public partial class CreateNewListForm : Form
@@ -20,12 +19,14 @@ namespace CODE_PROJECT
         private Button btnCreate;
         private Button btnCancel;
         private readonly string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=""C:\Users\s110383\source\repos\CODE PROJECT\Database.mdf"";Integrated Security=True";
+        private int userId;
 
         public ShoppingList CreatedList { get; private set; }
 
-        public CreateNewListForm()
+        public CreateNewListForm(int userId)
         {
             InitializeComponent();
+            this.userId = userId;
         }
 
         private void CreateNewListForm_Load(object sender, EventArgs e)
@@ -73,13 +74,12 @@ namespace CODE_PROJECT
                     using (SqlCommand cmd = new SqlCommand())
                     {
                         cmd.Connection = conn;
-                        // Note the lowercase column names
-                        cmd.CommandText = @"INSERT INTO ShoppingList (listName, createdBy) 
-                                      VALUES (@listName, @createdBy);
-                                      SELECT SCOPE_IDENTITY();";
+                        cmd.CommandText = @"INSERT INTO ShoppingList (listName, userId) 
+                                            VALUES (@listName, @userId);
+                                            SELECT SCOPE_IDENTITY();";
 
                         cmd.Parameters.AddWithValue("@listName", txtListName.Text.Trim());
-                        cmd.Parameters.AddWithValue("@createdBy", Environment.UserName);
+                        cmd.Parameters.AddWithValue("@userId", userId);
 
                         int listId = Convert.ToInt32(cmd.ExecuteScalar());
 
@@ -109,5 +109,4 @@ namespace CODE_PROJECT
     }
 
     // Updated ShoppingList class to match
-
 }

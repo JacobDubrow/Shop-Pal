@@ -57,5 +57,12 @@ namespace CODE_PROJECT
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void BackToLogIn_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form1 Form1 = new Form1();
+            Form1.ShowDialog();
+        }
     }
 }
