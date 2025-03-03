@@ -75,6 +75,5 @@ namespace CODE_PROJECT
         }
 
 
-        private System.Windows.Forms.Button btnForgotPassword;
     }
 }

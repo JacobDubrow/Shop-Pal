@@ -176,6 +176,11 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
+    <None Include="Resources\seifuhsdfd.jpg" />
+    <None Include="Resources\backkkkk.jpg" />
+    <None Include="Resources\ffff.jpg" />
+    <None Include="Resources\cap.jpg" />
+    <None Include="Resources\bac.jpg" />
     <None Include="Resources\6570292.png" />
     <None Include="Resources\fire.jpg" />
     <None Include="Resources\waves.jpg" />
